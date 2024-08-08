@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: '<CREDS>', url: 'https://github.com/sumeetninawe/tf-tuts'
+                git branch: 'main', credentialsId: '<CREDS>', url: 'https://github.com/Ibrarulhak/Terraform_ec2.git'
             }
         }
         stage('Terraform init') {
