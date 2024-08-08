@@ -1,0 +1,6 @@
+aws_region     = "us-west-1"
+ami_id         = "ami-0862be96e41dcbf74"  
+instance_type  = "t2.micro"
+subnet_id      = "subnet-0a81e6b350d02230e"
+instance_name  = "ai_app"
+availability_zone = "us-west-1"
