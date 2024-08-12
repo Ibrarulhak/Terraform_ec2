@@ -1,23 +1,43 @@
 pipeline {
     agent any
 
+    environment {
+        // Set AWS credentials once, accessible in all stages
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key-id')
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Terraform Init') {
             steps {
-               sh 'ls'
+                bat 'terraform init'
             }
         }
-        stage('Terraform init') {
+
+        stage('Terraform Plan') {
             steps {
-                sh 'terraform init'
+                bat '''
+                terraform plan -var "aws_access_key=${AWS_ACCESS_KEY_ID}" -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}"
+                '''
             }
         }
-        stage('Terraform apply') {
+
+        stage('Terraform Apply') {
             steps {
-                sh 'terraform apply --auto-approve'
+                bat '''
+                terraform apply -var "aws_access_key=${AWS_ACCESS_KEY_ID}" -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" -auto-approve
+                '''
             }
         }
-        
+
+        stage('Terraform Destroy') {
+            steps {
+                bat '''
+                terraform destroy -var "aws_access_key=${AWS_ACCESS_KEY_ID}" -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" -auto-approve
+                '''
+            }
+        }
     }
 }
+
 
