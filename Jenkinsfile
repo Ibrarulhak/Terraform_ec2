@@ -7,7 +7,7 @@ pipeline {
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-key-id', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    bat 'terraform init'
+                    sh 'terraform init'
                 }
             }
         }
@@ -17,8 +17,8 @@ pipeline {
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-key-id', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    bat '''
-                    terraform plan -var "aws_access_key=%AWS_ACCESS_KEY_ID%" -var "aws_secret_key=%AWS_SECRET_ACCESS_KEY%"
+                    sh '''
+                    terraform plan -var "aws_access_key=$AWS_ACCESS_KEY_ID" -var "aws_secret_key=$AWS_SECRET_ACCESS_KEY"
                     '''
                 }
             }
@@ -29,8 +29,8 @@ pipeline {
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-key-id', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    bat '''
-                    terraform apply -var "aws_access_key=%AWS_ACCESS_KEY_ID%" -var "aws_secret_key=%AWS_SECRET_ACCESS_KEY%" -auto-approve
+                    sh '''
+                    terraform apply -var "aws_access_key=$AWS_ACCESS_KEY_ID" -var "aws_secret_key=$AWS_SECRET_ACCESS_KEY" -auto-approve
                     '''
                 }
             }
@@ -41,8 +41,8 @@ pipeline {
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-key-id', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    bat '''
-                    terraform plan -var "aws_access_key=%AWS_ACCESS_KEY_ID%" -var "aws_secret_key=%AWS_SECRET_ACCESS_KEY%"
+                    sh '''
+                    terraform destroy -var "aws_access_key=$AWS_ACCESS_KEY_ID" -var "aws_secret_key=$AWS_SECRET_ACCESS_KEY" -auto-approve
                     '''
                 }
             }
